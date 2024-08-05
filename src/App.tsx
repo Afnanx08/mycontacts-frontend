@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminLogin from './pages/AdminLogin';
 import AdminRegister from './pages/AdminRegister';
 import AdminHome from './pages/AdminHome';
-import ManageUsersPage from './components/admin/ManageUsersPage';
 import UsersList from './components/admin/UsersList';
 import ContactEditor from './components/admin/ContactEditor';
 import AppLayout from './pages/AppLayout';
@@ -24,7 +23,6 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/adminHome/*" element={<AdminHome />}>
                     <Route index element={<div>Admin Home Dashboard</div>} />
-                    <Route path="manageUsers/*" element={<ManageUsersPage />} />
                     <Route path="usersList" element={<UsersList />} />
                     <Route path="ContactEditor" element={<ContactEditor />} />
                 </Route>

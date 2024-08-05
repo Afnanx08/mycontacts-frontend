@@ -3,7 +3,6 @@ import React, { useState, useEffect, FC } from 'react';
 import { useLocation, useNavigate,Link ,Outlet} from 'react-router-dom';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import Cookies from 'js-cookie';
 
 interface User {
     id: number;
@@ -28,13 +27,11 @@ const AdminHome: FC = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [accessToken, setAccessToken] = useState<string | null>(() => sessionStorage.getItem('accessToken') || location.state?.accessToken);
-    const refreshToken = Cookies.get('refreshToken') || '';
 
 
     const handleLogout = () => {
         // Clear the tokens
         sessionStorage.removeItem('accessToken');
-        Cookies.remove('refreshToken');
         setAccessToken(null);
         // Navigate to the homepage
         navigate('/');
@@ -62,20 +59,20 @@ const AdminHome: FC = () => {
         return null;
     };
 
-    const isAccessTokenExpiring = (token: string): boolean => {
-        const decodedToken: DecodedToken = jwt_decode(token);
-        const currentTime = Date.now() / 1000; // Convert to UNIX timestamp (seconds)
-        return (decodedToken.exp - currentTime) <= REFRESH_TIME;
-    };
+    // const isAccessTokenExpiring = (token: string): boolean => {
+    //     const decodedToken: DecodedToken = jwt_decode(token);
+    //     const currentTime = Date.now() / 1000; // Convert to UNIX timestamp (seconds)
+    //     return (decodedToken.exp - currentTime) <= REFRESH_TIME;
+    // };
 
-    const hasTokenExpired = (token: string): boolean => {
-        const decodedToken: DecodedToken = jwt_decode(token);
-        const currentTime = Date.now() / 1000;
-        return decodedToken.exp <= currentTime;
-    };
+    // const hasTokenExpired = (token: string): boolean => {
+    //     const decodedToken: DecodedToken = jwt_decode(token);
+    //     const currentTime = Date.now() / 1000;
+    //     return decodedToken.exp <= currentTime;
+    // };
     
     useEffect(() => {
-        if (!accessToken || hasTokenExpired(accessToken)) {
+        if (!accessToken) {
             console.log('Error: Token might be expired or invalid.');
             navigate('/');
         }
@@ -87,7 +84,7 @@ const AdminHome: FC = () => {
             try {
                 let currentToken = accessToken;
 
-                if (currentToken && isAccessTokenExpiring(currentToken)) {
+                if (currentToken) {
                     const newAccessToken = await refreshAccessToken();
                     if (newAccessToken) {
                         sessionStorage.setItem('accessToken', newAccessToken);
