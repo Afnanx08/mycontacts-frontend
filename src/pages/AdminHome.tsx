@@ -40,7 +40,7 @@ const AdminHome: FC = () => {
     const refreshAccessToken = async (): Promise<string | null> => {
         try {
             const refreshResponse = await axios.post(
-                `${VITE_API_BASE_URL}/admin/refreshToken`,
+                `${VITE_API_BASE_URL}/users/refreshToken`,
                 {},
                 {
                     headers: {
@@ -97,7 +97,7 @@ const AdminHome: FC = () => {
                 }
 
                 if (currentToken) {
-                    const response = await fetch(`${VITE_API_BASE_URL}/admin/users?page=${page}`, {
+                    const response = await fetch(`${VITE_API_BASE_URL}/users/users?page=${page}`, {
                         headers: { Authorization: `${currentToken}` }
                     });
                     
@@ -111,7 +111,7 @@ const AdminHome: FC = () => {
             } catch (error: any) {
                 if (error.response && error.response.status === 401) {
                     console.error('Error: Token might be expired or invalid.');
-                    window.location.href = "/admin/login";
+                    window.location.href = "/users/login";
                 } else {
                     console.error('Error fetching users:', error.message);
                 }

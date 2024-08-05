@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
 import './Admin.css';
 
 type FormData = {
@@ -39,7 +38,7 @@ const AdminLogin: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         try {
-            const response: AxiosResponse<ResponseData> = await axios.post(`${VITE_API_BASE_URL}/admin/login`,
+            const response: AxiosResponse<ResponseData> = await axios.post(`${VITE_API_BASE_URL}/users/login`,
                 formData,
                 {
                     withCredentials: true, // Allow cookies to be sent
