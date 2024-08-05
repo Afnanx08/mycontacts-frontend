@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
 import './Admin.css';
 
 type FormData = {
@@ -18,7 +17,7 @@ type AxiosError = {
     }
 }
 
-const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
 const AdminLogin: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -39,7 +38,7 @@ const AdminLogin: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         try {
-            const response: AxiosResponse<ResponseData> = await axios.post(`${VITE_API_BASE_URL}/admin/login`,
+            const response: AxiosResponse<ResponseData> = await axios.post(`${VITE_API_BASE_URL}/api/users/login`,
                 formData,
                 {
                     withCredentials: true, // Allow cookies to be sent

@@ -141,6 +141,7 @@ const AdminHome: FC = () => {
                 <Link to="/adminHome/upgrades">Manage Upgrades</Link>
                 <Link to="/adminHome/announcement-tester">Announce Test</Link>
                 <Link to="/adminHome/virtual-pool">Virtual Pool</Link>
+                <Link to="/adminHome/contactEditor">Contact Editor</Link>
 
             </nav>
 

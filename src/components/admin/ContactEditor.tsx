@@ -1,4 +1,3 @@
-// src/components/ContactEditor.tsx
 import React, { useState, useEffect, FC } from 'react';
 import axios from 'axios';
 
@@ -16,6 +15,7 @@ const ContactEditor: FC = () => {
     const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '' });
     const [selectedContactId, setSelectedContactId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchContacts();
@@ -25,9 +25,15 @@ const ContactEditor: FC = () => {
         setIsLoading(true);
         try {
             const response = await axios.get(`${VITE_API_BASE_URL}/api/contacts`);
-            setContacts(response.data);
+            if (Array.isArray(response.data)) {
+                setContacts(response.data);
+            } else {
+                console.error('API response is not an array:', response.data);
+                setContacts([]);
+            }
         } catch (error) {
             console.error('Error fetching contacts:', error);
+            setContacts([]); // Default to empty array on error
         } finally {
             setIsLoading(false);
         }
@@ -121,6 +127,7 @@ const ContactEditor: FC = () => {
                     ))}
                 </ul>
             )}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };
