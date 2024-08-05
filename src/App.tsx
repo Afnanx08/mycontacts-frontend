@@ -1,44 +1,35 @@
-import React, { useState } from 'react';
-import logo from './logo.svg'; // Ensure this path is correct
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AdminLogin from './pages/AdminLogin';
+import AdminRegister from './pages/AdminRegister';
+import AdminHome from './pages/AdminHome';
+import ManageUsersPage from './components/admin/ManageUsersPage';
+import UsersList from './components/admin/UsersList';
+import ContactEditor from './components/admin/ContactEditor';
+import AppLayout from './pages/AppLayout';
 import './App.css';
-import LoginForm from './components/LoginForm'; // Import your LoginForm component
 
-function App() {
-    const [count, setCount] = useState(0);
+ 
 
+
+const App: React.FC = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>Hello Vite + React!</p>
-                <p>
-                    <button onClick={() => setCount((count) => count + 1)}>
-                        count is: {count}
-                    </button>
-                </p>
-                <p>Edit <code>App.tsx</code> and save to test HMR updates.</p>
-                <p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                    {' | '}
-                    <a
-                        className="App-link"
-                        href="https://vitejs.dev/guide/features.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Vite Docs
-                    </a>
-                </p>
-                <LoginForm /> {/* Add your LoginForm component here */}
-            </header>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<AppLayout />}>
+                    <Route index element={<div>Select a page from above to navigate.</div>} />
+                    <Route path="admin" element={<AdminLogin />} />
+                    <Route path="adminRegister" element={<AdminRegister />} />
+                </Route>
+                <Route path="/adminHome/*" element={<AdminHome />}>
+                    <Route index element={<div>Admin Home Dashboard</div>} />
+                    <Route path="manageUsers/*" element={<ManageUsersPage />} />
+                    <Route path="usersList" element={<UsersList />} />
+                    <Route path="ContactEditor" element={<ContactEditor />} />
+                </Route>
+            </Routes>
+        </Router>
     );
 }
 
