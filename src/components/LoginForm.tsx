@@ -8,7 +8,7 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/login', { email, password });
+            const response = await axios.post('http://localhost:5001/api/users/login', { email, password });
             console.log(response.data);
             localStorage.setItem('token', response.data.token);
         } catch (error) {
